@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "8000:8000"
+    volumes:
+      - dice_data:/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/random_d6 || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  client:
+    build: ./client
+    depends_on:
+      server:
+        condition: service_healthy
+
+volumes:
+  dice_data:
