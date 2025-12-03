@@ -1,0 +1,35 @@
+services:
+  user_service:
+    build: ./user_service
+    container_name: user_service
+    networks:
+      - microservices_network
+
+  order_service:
+    build: ./order_service
+    container_name: order_service
+    networks:
+      - microservices_network
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - user_service
+      - order_service
+    networks:
+      - microservices_network
+
+  client:
+    build: ./client
+    container_name: client
+    depends_on:
+      - gateway
+    networks:
+      - microservices_network
+
+networks:
+  microservices_network:
+    driver: bridge

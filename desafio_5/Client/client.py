@@ -1,27 +1,25 @@
 import time
+import sys
 import requests
 
-URL = "http://localhost:8000"  
+sys.stdout.reconfigure(line_buffering=True)
+
+GATEWAY_URL = "http://gateway:8000"
 
 def testar():
     while True:
+        print("\nTeste /users:", flush=True)
+        r = requests.get(f"{GATEWAY_URL}/users")
+        print("Status:", r.status_code, flush=True)
+        print("Resposta:", r.text, flush=True)
 
-        print("\nEnviando request: ")
+        print("\nTeste /orders:", flush=True)
+        r = requests.get(f"{GATEWAY_URL}/orders")
+        print("Status:", r.status_code, flush=True)
+        print("Resposta:", r.text, flush=True)
 
-        r = requests.get(f"{URL}/random_d6")
-        print("\nstatus: ", r.status_code)
-        print("Resposta: ", r.text, )
-
-        for x in [6, 10, 20]:
-
-            print("\nTeste, dado de", x, "lados")
-            r = requests.get(f"{URL}/random_d/{x}")
-            print("\nStatus:", r.status_code)
-            print("Resposta:", r.text)
-
-        print("\n timeout de 5 segundos")
+        print("\nTimeout de 5 segundos")
         time.sleep(5)
 
 if __name__ == "__main__":
     testar()
-
