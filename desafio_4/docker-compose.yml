@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  service_a:
+    build: ./service_a
+    ports:
+      - "8001:8001"
+    networks:
+      - dice_network
+
+  service_b:
+    build: ./service_b
+    ports:
+      - "8002:8002"
+    networks:
+      - dice_network
+
+networks:
+  dice_network:
