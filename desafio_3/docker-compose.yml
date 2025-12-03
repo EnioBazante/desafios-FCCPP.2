@@ -1,0 +1,29 @@
+services:
+  database:
+    build: ./database
+    volumes:
+      - dice_data:/app/data
+    networks:
+      - dice_network
+
+  middleware:
+    build: ./middleware
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+    networks:
+      - dice_network
+
+  client:
+    build: ./client
+    depends_on:
+      - middleware
+    networks:
+      - dice_network
+
+volumes:
+  dice_data:
+
+networks:
+  dice_network:
